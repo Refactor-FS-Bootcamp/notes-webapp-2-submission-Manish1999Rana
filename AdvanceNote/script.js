@@ -9,7 +9,9 @@ function res(){
     document.getElementById("tArea").value="";
     document.getElementById("save").hidden="hidden";
     document.getElementById("add").removeAttribute("hidden");
+    document.getElementById("add").disabled=true;
     document.getElementById("cancel").hidden="hidden";
+    display();
 }
 
 function addNote(){
@@ -21,7 +23,8 @@ function addNote(){
     let object={
         titl:document.getElementById("title").value,
         des:document.getElementById("tArea").value,
-        dateOfEntry:currentDate
+        dateOfEntry:currentDate,
+        arc:true
     };
     a.push(object);
     localStorage.setItem("array",JSON.stringify(a));
@@ -43,9 +46,10 @@ function display(){
     let result=``;
     if(a.length>0){
         for(let i=0;i<a.length;i++){
+            if(a[i].arc)
             result=result+`<div class="cards" id="card${i}">`+
             `<div class="detail">`+
-            `    <label for="desc" class="topic">Tittle</label><input type="checkbox" name="card" id="note${i}"><br>`+
+            `    <label for="desc" class="topic">Tittle</label><input type="checkbox" name="card" id="${i}"><br>`+
             `    <label for="title">${a[i].titl}</label><br><br>`+
             `    <label for="desc" class="topic">Description</label><br>`+
             `    <label for="Description">${a[i].des}</label>`+
@@ -67,11 +71,12 @@ display();
 
 function keygen(){
     var val = Math.floor(1000 + Math.random() * 9000);
+    return val;
 }
 
 function delCard(i){
     let key=keygen();
-    let alert1=prompt(`Enter ${key} to confirm delete.`)
+    let alert1=prompt(`Enter "${key}" to confirm delete.`)
     if(alert1==key){
         a.splice(i,1);
         localStorage.setItem("array",JSON.stringify(a));
@@ -99,16 +104,49 @@ function saveN(){
     res();
 }
 
+
+function check(){
+    let a=document.getElementsByName("card");
+    let b=[];
+    let j=0;
+    for(i=0;i<a.length;i++){
+        if(a[i].checked==true){
+            b[j++]=a[i].id;
+        }
+    }
+    return b;
+}
+
 function delNote(){
     let key=keygen();
-    let alert1=prompt(`Enter ${key} to confirm delete.`)
+    let alert1=prompt(`Enter "${key}" to confirm delete.`)
     if(alert1==key){
-        
-        a.splice(i,1);
+        let arr=check();
+        for(let c=arr.length-1;c>=0;c--){
+            console.log(arr[c]);
+        a.splice(parseInt(arr[c]),1);}
         localStorage.setItem("array",JSON.stringify(a));
         display();
     }
     else
     alert("Incorrect keyword");
 
+}
+
+function arcNote(){
+    let arr=check();
+    for(let c=arr.length-1;c>=0;c--){
+        console.log(parseInt(arr[c]));
+        a[parseInt(arr[c])].arc=false;
+        localStorage.setItem("array",JSON.stringify(a));
+        display();
+    }
+}
+
+function disAll(){
+    for(let c=0;c<a.length;c++){
+        a[c].arc=true;
+        localStorage.setItem("array",JSON.stringify(a));
+        display();
+    }
 }
