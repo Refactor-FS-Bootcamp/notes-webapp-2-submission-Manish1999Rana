@@ -1,0 +1,55 @@
+.subcontainer{
+    background-color: blue;
+    margin:5px;
+    padding: 10px;
+    overflow-x: scroll;
+
+}
+.form{
+    background-color: green;
+    padding: 20px;
+}
+.input{
+    width:100%;
+}
+.input1{
+    color:white;
+}
+.Delete{
+    background-color: Red;
+    color:wheat
+}
+#Notes{
+    display: flex;
+    width: 100%;
+    height: auto;
+}
+.cards{
+    margin: auto;
+    padding: 5px;
+    background-color: darkslategray;
+    color:white;
+    font-style: italic;
+    width: 200px;
+    height: 200px;
+    border: 5px solid green;
+}
+.topic{
+    font-size: large;
+    font-weight: bolder;
+    font-style: normal;
+}
+div{
+    margin:2px;
+}
+.detail{
+    width: 100%;
+    height: 70%;
+    overflow-y: scroll;
+}
+.operation{
+    padding: 5px;
+    background-color: lightgreen;
+    box-sizing: border-box;
+    color: blue;
+}
