@@ -1,8 +1,17 @@
 let a=[];
+let recycle=[];
 let index;
+let  count=0;
+if(JSON.parse(localStorage.getItem("index"))!=null)
+count=JSON.parse(localStorage.getItem("index"));
+else
+localStorage.setItem("index",JSON.stringify(count));
 if(JSON.parse(localStorage.getItem("array"))!=null)
 a=JSON.parse(localStorage.getItem("array"));
+if(JSON.parse(localStorage.getItem("recycle"))!=null)
+recycle=JSON.parse(localStorage.getItem("recycle"));
 let i=a.length;
+let k=recycle.length;
 
 function res(){
     document.getElementById("title").value="";
@@ -21,6 +30,7 @@ function addNote(){
     let year = date.getFullYear();
     let currentDate = `${day}-${month}-${year}`;
     let object={
+        id:count++,
         titl:document.getElementById("title").value,
         des:document.getElementById("tArea").value,
         dateOfEntry:currentDate,
@@ -28,6 +38,7 @@ function addNote(){
     };
     a.push(object);
     localStorage.setItem("array",JSON.stringify(a));
+    localStorage.setItem("index",JSON.stringify(count));
     a=JSON.parse(localStorage.getItem("array"));
     display(); 
     res();
@@ -42,22 +53,54 @@ function enblBtn(){
     document.getElementById("add").disabled=true;
 }
 
+function qSort(arr){
+    function sortA(arr,left,right){
+        if(left<right){
+            pi=partition(arr,left,right);
+            sortA(arr,left,pi-1);
+            sortA(arr,pi+1,right)
+        }
+
+    }
+    function partition(arr,left,right){
+        let i=left;
+        let pivort=arr[right];
+        for(let j=left;j<right;j++){
+            console.log(arr[j]);
+            if(parseInt(pivort.id)>parseInt(arr[j].id)){
+                swap(arr,i++,j);
+            }
+        }
+        swap(arr,right,i);
+        return i;
+    }
+    function swap(arr,left,right){
+        let temp=arr[left];
+        arr[left]=arr[right];
+        arr[right]=temp;
+    }
+    sortA(arr,0,arr.length-1);
+    return arr;
+}
+
 function display(){
     let result=``;
+    a=qSort(a);
     if(a.length>0){
+        // a.sort((x,y)=>x.id-y.id);
         for(let i=0;i<a.length;i++){
             if(a[i].arc)
-            result=result+`<div class="cards" id="card${i}">`+
+            result=result+`<div class="cards" id="card${a[i].id}">`+
             `<div class="detail">`+
-            `    <label for="desc" class="topic">Tittle</label><input type="checkbox" name="card" id="${i}"><br>`+
+            `    <label for="desc" class="topic">Tittle</label><input type="checkbox" name="card" id="${a[i].id}"><br>`+
             `    <label for="title">${a[i].titl}</label><br><br>`+
             `    <label for="desc" class="topic">Description</label><br>`+
             `    <label for="Description">${a[i].des}</label>`+
             `</div>`+
             `<div class="operation">`+
             `    <label for="time">${a[i].dateOfEntry}</label><br>`+
-            `    <input type="button" class="Delete" value="Delete" onclick="delCard(${i})"/>`+
-            `    <input type="button" value="Edit" onclick="editCard(${i})"/>`+
+            `    <input type="button" class="Delete" value="Delete" onclick="delCard(${a[i].id})"/>`+
+            `    <input type="button" value="Edit" onclick="editCard(${a[i].id})"/>`+
             `</div>`+
             `</div>`;
         }
@@ -78,9 +121,15 @@ function delCard(i){
     let key=keygen();
     let alert1=prompt(`Enter "${key}" to confirm delete.`)
     if(alert1==key){
-        a.splice(i,1);
-        localStorage.setItem("array",JSON.stringify(a));
-        display();
+        for(let j=0;j<a.length;j++){
+            if(parseInt(a[j].id)==parseInt(i)){
+                recycle[k++]=a[j];
+                a.splice(j,1);
+            }
+            localStorage.setItem("array",JSON.stringify(a));
+            localStorage.setItem("recycle",JSON.stringify(recycle));
+            display();
+        }
     }
     else
     alert("Incorrect keyword");
@@ -88,12 +137,16 @@ function delCard(i){
 
 function editCard(i){
     document.getElementById(`card${i}`).style="display:none";
-    document.getElementById("title").value=a[i].titl;
-    document.getElementById("tArea").value=a[i].des;
+    for(let j=0;j<a.length;j++){
+        if(a[j].id==i){
+            document.getElementById("title").value=a[j].titl;
+            document.getElementById("tArea").value=a[j].des;
+            index=j;
+        }
+    }
     document.getElementById("add").hidden="hidden";
     document.getElementById("save").removeAttribute("hidden");
     document.getElementById("cancel").removeAttribute("hidden");
-    index=i;
 }
 
 function saveN(){
@@ -103,7 +156,6 @@ function saveN(){
     display();
     res();
 }
-
 
 function check(){
     let a=document.getElementsByName("card");
@@ -123,9 +175,15 @@ function delNote(){
     if(alert1==key){
         let arr=check();
         for(let c=arr.length-1;c>=0;c--){
-            console.log(arr[c]);
-        a.splice(parseInt(arr[c]),1);}
+            for(let j=0;j<a.length;j++){
+                if(parseInt(a[j].id)==parseInt(arr[c])){
+                    recycle[k++]=a[j];
+                    a.splice(j,1);
+                }
+            }
+        }
         localStorage.setItem("array",JSON.stringify(a));
+        localStorage.setItem("recycle",JSON.stringify(recycle));
         display();
     }
     else
@@ -136,8 +194,14 @@ function delNote(){
 function arcNote(){
     let arr=check();
     for(let c=arr.length-1;c>=0;c--){
-        console.log(parseInt(arr[c]));
-        a[parseInt(arr[c])].arc=false;
+        for(let j=0;j<a.length;j++){
+            if(parseInt(a[j].id)==parseInt(arr[c])){
+                
+                console.log(parseInt(arr[c]));
+                console.log(parseInt(arr[c]));
+                a[j].arc=false;
+            }
+        }
         localStorage.setItem("array",JSON.stringify(a));
         display();
     }
@@ -149,4 +213,13 @@ function disAll(){
         localStorage.setItem("array",JSON.stringify(a));
         display();
     }
+}
+function backup(){
+    for(let c=0;c<recycle.length;c++){
+        a.push(recycle[c]);
+        recycle.shift();
+        localStorage.setItem("array",JSON.stringify(a));
+        localStorage.setItem("recycle",JSON.stringify(recycle));
+    }
+    display();
 }

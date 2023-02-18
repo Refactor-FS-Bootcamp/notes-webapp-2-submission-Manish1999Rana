@@ -2,7 +2,8 @@
     background-color: blue;
     margin:5px;
     padding: 10px;
-    /* overflow-x: scroll; */
+    overflow: hidden;
+    height: auto;
 
 }
 .form{
@@ -24,9 +25,12 @@
     width: 100%;
     overflow-y: scroll;
     padding: 10px;
+    flex-wrap: wrap;
+
 }
 .cards{
     margin: auto;
+    margin-top: 10px;
     padding: 5px;
     background-color: darkslategray;
     color:white;
