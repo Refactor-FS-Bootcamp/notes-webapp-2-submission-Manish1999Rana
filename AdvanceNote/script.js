@@ -240,3 +240,15 @@ function backup() {
         display();
     }
 }
+function search(){
+    let str=document.getElementById("search").value;
+    let notes=document.getElementsByName("card");
+    for(let i=0;i<notes.length;i++){
+        let cardId=parseInt(notes[i].id);
+        if(array[cardId].titl.includes(str)){
+            document.getElementById(`card${cardId}`).removeAttribute("style");
+        }
+        else
+        document.getElementById(`card${cardId}`).style="display:none";
+    }
+}
