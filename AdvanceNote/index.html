@@ -10,8 +10,16 @@
 </head>
 
 <body>
+    <div id="menu" class="menu" style="display: none;" onmouseleave="hideOptions()">
+        <ul>
+            <a href="">Archived</a>
+        </ul>
+        <ul>
+            <a href="">Recycle bin</a>
+        </ul>
+    </div>
     <div class="cointainer">
-        <div class="subcontainer">
+        <div class="subcontainer" style="display: flex;"><div><img src="./index.png" height="40px" alt="menu" title="open menu" onclick="showOptions()"></div>
             <input type="text" id="search" class="input" placeholder="Search Notes" oninput="search()"/>
         </div>
         <div class="subcontainer">
@@ -21,19 +29,19 @@
                 <label class="input1" for="Description">Description</label><br>
                 <textarea class="input" name="text" id="tArea" cols="50" rows="10"
                     placeholder="Describe your note here.." oninput="enblBtn()"></textarea><br>
-                <input type="button" disabled=true id="add" value="Add Note" onclick="addNote()"/>
-                <input type="button" hidden="hidden" id="save" value="Save Edited" onclick="saveN()"/>
-                <input type="button" hidden="hidden" id="cancel" value="Cancel" onclick="res()"/>
+                <input type="button" class="butt" disabled=true id="add" title="Edit Tittle and Description to enable button" value="Add Note" onclick="addNote()"/>
+                <input type="button" class="butt"  hidden="hidden" id="save" value="Save Edited" onclick="saveN()"/>
+                <input type="button" class="butt"  hidden="hidden" id="cancel" value="Cancel" onclick="res()"/>
             </form>
         </div>
         <div class="subcontainer">
             <div>
 
                 <label class="input1" for="Notes">Your Notes:</label>
-                <input type="button" class="Delete" value="Delete" onclick="delNote()"/>
-                <input type="button" value="Archive" onclick="arcNote()"/>
-                <input type="button" value="Bacup All" onclick="backup()"/>
-                <input type="button" value="Show All" onclick="disAll()"/>
+                <input type="button" title="Caution! This will delete notes." class="Delete butt" value="Delete" onclick="delNote()"/>
+                <input type="button" title="This will hide selected Notes"  class="butt" value="Archive" onclick="arcNote()"/>
+                <input type="button" title="This will restore all deleted Notes" class="butt"  value="Bacup All" onclick="backup()"/>
+                <input type="button" title="This will restore all hidden Notes" class="butt"  value="Show All" onclick="disAll()"/>
 
             </div>
             <div id="Notes">

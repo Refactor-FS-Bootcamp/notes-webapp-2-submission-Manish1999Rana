@@ -36,12 +36,14 @@ function res() {
 
 function addNote() {
     let date = new Date();
-    let currentDate = `${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`;
+    let currentDate = `${date.getDate()<10?'0':''}${date.getDate()}/${date.getMonth()<9?'0':''}${date.getMonth()+1}/${date.getFullYear()}`+
+    ` ${date.getHours()<10?'0':''}${date.getHours()}:${date.getMinutes()<10?'0':''}${date.getMinutes()}:${date.getSeconds()<10?'0':''}${date.getSeconds()}`;
     let object = {
         id: index++,
         titl: document.getElementById("title").value,
         des: document.getElementById("tArea").value,
         dateOfEntry: currentDate,
+        dateOfMod:"",
         arc: true
     };
     array.push(object);
@@ -107,9 +109,10 @@ function display() {
                     `    <label for="Description">${array[i].des}</label>` +
                     `</div>` +
                     `<div class="operation">` +
-                    `    <label for="time">${array[i].dateOfEntry}</label><br>` +
-                    `    <input type="button" class="Delete" value="Delete" onclick="delCard(${array[i].id})"/>` +
-                    `    <input type="button" value="Edit" onclick="editCard(${array[i].id})"/>` +
+                    `    <label for="time">Created on: <b>${array[i].dateOfEntry}</b></label><br>` +
+                    `    ${array[i].dateOfMod}`+
+                    `    <input type="button" class="Delete butt" value="Delete" onclick="delCard(${array[i].id})"/>` +
+                    `    <input type="button"  class="butt" value="Edit" onclick="editCard(${array[i].id})"/>` +
                     `</div>` +
                     `</div>`;
             }
@@ -159,8 +162,12 @@ function editCard(i) {
 }
 
 function saveN() {
+    let date = new Date();
+    let currentDate = `${date.getDate()<10?'0':''}${date.getDate()}/${date.getMonth()<9?'0':''}${date.getMonth()+1}/${date.getFullYear()}`+
+    ` ${date.getHours()<10?'0':''}${date.getHours()}:${date.getMinutes()<10?'0':''}${date.getMinutes()}:${date.getSeconds()<10?'0':''}${date.getSeconds()}`;
     array[edIndex].titl = document.getElementById("title").value;
     array[edIndex].des = document.getElementById("tArea").value;
+    array[edIndex].dateOfMod=`<label for="time2">Modified: <b>${currentDate}</b></label><br>`;
     setLD();
     display();
     res();
@@ -208,6 +215,7 @@ function delNote() {
 
 function arcNote() {
     let arr = check();
+    if(arr.length>0){
     for (let c = arr.length - 1; c >= 0; c--) {
         for (let j = 0; j < array.length; j++) {
             if (parseInt(array[j].id) == parseInt(arr[c])) {
@@ -218,7 +226,9 @@ function arcNote() {
         }
         setLD();
         display();
-    }
+    }}
+    else
+    alert("select card then try again");
 }
 
 function disAll() {
@@ -251,4 +261,10 @@ function search(){
         else
         document.getElementById(`card${cardId}`).style="display:none";
     }
+}
+function showOptions(){
+    document.getElementById("menu").removeAttribute("style");
+}
+function hideOptions(){
+    document.getElementById("menu").style="display:none";
 }
