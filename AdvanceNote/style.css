@@ -1,0 +1,94 @@
+.subcontainer{
+    background-color: blue;
+    margin:5px;
+    padding: 10px;
+    overflow: hidden;
+    height: auto;
+}
+.form{
+    background-color: green;
+    padding: 20px;
+}
+.input{
+    min-height: 40px;
+    font-size: large;
+    width:100%;
+    box-sizing: border-box;
+}
+.input1{
+    color:white;
+}
+.Delete{
+    background-color: Red;
+    color:wheat
+}
+#Notes{
+    display: flex;
+    width: 100%;
+    overflow-y: scroll;
+    padding: 10px;
+    flex-wrap: wrap;
+
+}
+.cards{
+    position: relative;
+    margin: auto;
+    margin-top: 10px;
+    padding: 5px;
+    background-color: darkslategray;
+    color:white;
+    font-style: italic;
+    width: 250px;
+    height: 300px;
+    border: 5px solid green;
+    box-sizing: border-box;
+}
+.topic{
+    width: 100%;
+    font-size: large;
+    font-weight: bolder;
+    font-style: normal;
+}
+div{
+    margin:2px;
+}
+.detail{
+    width: 100%;
+    height: 75%;
+    overflow-y: scroll;
+}
+.operation{
+    position: absolute;
+    width: 95%;
+    bottom: 0%;
+    padding: 5px;
+    background-color: lightgreen;
+    box-sizing: border-box;
+    color: blue;
+}
+.butt{
+    margin: 5px;
+    min-width: 80px;
+    min-height: 30px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.menu{
+    background-color: bisque;
+    position: absolute;
+    left: 15px;
+    width: 30%;
+    
+}
+ul{
+    margin: 0%;
+    padding: 10px;
+}
+.menu a{
+    text-decoration: none;
+    font-size: large;
+    color:blue;
+}
+ul:hover{
+    background-color: lightcoral;
+    color:white
+}
